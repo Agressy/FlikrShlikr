@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bortnikov.artem.flikrshlikr.R;
 import com.bortnikov.artem.flikrshlikr.presenter.feed.FeedListItemView;
@@ -37,6 +38,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.pos = position;
         presenter.bindView(holder);
+        holder.imageView.setOnClickListener(view -> {
+            Toast.makeText(holder.imageView.getContext(), holder.titleTextView.getText(), Toast.LENGTH_SHORT).show();
+        });
     }
 
     @Override
@@ -66,6 +70,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             GlideApp.with(imageView.getContext())
                     .load(imageLink)
                     .placeholder(new ColorDrawable(Color.GRAY))
+                    .centerCrop()
                     .into(imageView);
         }
 

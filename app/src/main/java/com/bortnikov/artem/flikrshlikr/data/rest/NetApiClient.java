@@ -10,8 +10,7 @@ import io.reactivex.schedulers.Schedulers;
 public class NetApiClient {
     private static final String METHOD_RECENT = "flickr.photos.getRecent";
     private static final String METHOD_SEARCH = "flickr.photos.search";
-    //private static final String API_KEY = "3f3f9b8120d3870dabda80525c1686c5";
-    private static final String API_KEY="1bc3bc4dae06cfc8e06e68ec3ef1a736";
+    private static final String API_KEY = "3f3f9b8120d3870dabda80525c1686c5";
     private static final String FORMAT = "json";
     private static final String NOJSONCALLBACK = "1";
     private static final String EXTRAS = "url_s";

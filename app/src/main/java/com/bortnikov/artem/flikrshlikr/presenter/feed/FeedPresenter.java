@@ -42,10 +42,6 @@ public class FeedPresenter extends MvpPresenter<FeedView> implements Subscriber<
     public void attachView(FeedView view) {
         super.attachView(view);
         loadData();
-        List<String> titlesList = new ArrayList<>();
-        List<String> imagesList = new ArrayList<>();
-        listPrestenter.titles.addAll(titlesList);
-        listPrestenter.images.addAll(imagesList);
     }
 
     private void loadData() {
