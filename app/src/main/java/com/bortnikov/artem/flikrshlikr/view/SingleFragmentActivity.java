@@ -5,11 +5,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.bortnikov.artem.flikrshlikr.R;
 
-public abstract class SingleFragmentActivity extends AppCompatActivity {
+public abstract class SingleFragmentActivity extends MvpAppCompatActivity {
 
-    protected abstract Fragment createFragment();
+    protected abstract Fragment createStartFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +19,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.container_fragments);
         if (fragment == null) {
-            fragment = createFragment();
+            fragment = createStartFragment();
             fm.beginTransaction()
                     .add(R.id.container_fragments, fragment)
                     .commit();

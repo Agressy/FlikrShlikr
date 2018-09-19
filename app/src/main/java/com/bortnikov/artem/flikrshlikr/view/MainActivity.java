@@ -1,11 +1,8 @@
 package com.bortnikov.artem.flikrshlikr.view;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,9 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.bortnikov.artem.flikrshlikr.R;
-import com.bortnikov.artem.flikrshlikr.view.fragment.FeedFragment;
-import com.bortnikov.artem.flikrshlikr.view.fragment.ProfileFragment;
-import com.bortnikov.artem.flikrshlikr.view.fragment.SearchFragment;
+import com.bortnikov.artem.flikrshlikr.view.feed.FeedFragment;
+import com.bortnikov.artem.flikrshlikr.view.profile.ProfileFragment;
+import com.bortnikov.artem.flikrshlikr.view.search.SearchFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,11 +32,6 @@ public class MainActivity extends SingleFragmentActivity
     NavigationView navigationView;
 
     @Override
-    protected Fragment createFragment() {
-        return new ProfileFragment();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
@@ -52,6 +44,11 @@ public class MainActivity extends SingleFragmentActivity
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    protected Fragment createStartFragment() {
+        return new FeedFragment();
     }
 
     @Override
