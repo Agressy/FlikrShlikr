@@ -8,17 +8,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bortnikov.artem.flikrshlikr.R;
-import com.bortnikov.artem.flikrshlikr.data.model.Photo;
+import com.bortnikov.artem.flikrshlikr.data.model.RealmModel;
+import com.bortnikov.artem.flikrshlikr.data.model.retrofit.Photo;
 import com.bortnikov.artem.flikrshlikr.presenter.feed.FeedPresenter;
 import com.bortnikov.artem.flikrshlikr.presenter.feed.FeedView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.observers.DisposableSingleObserver;
 
 public class FeedFragment extends MvpAppCompatFragment implements FeedView {
 
@@ -29,6 +33,7 @@ public class FeedFragment extends MvpAppCompatFragment implements FeedView {
 
     private RecyclerView photoRecyclerView;
     private List<Photo> itemsList = new ArrayList<>();
+    private TextView textView;
 
     @Nullable
     @Override
@@ -38,7 +43,17 @@ public class FeedFragment extends MvpAppCompatFragment implements FeedView {
         photoRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         adapter = new FeedAdapter(feedPresenter.getListFiles());
         photoRecyclerView.setAdapter(adapter);
+        textView = v.findViewById(R.id.feed_db);
+
+        feedPresenter.saveToRealm();
         return v;
+    }
+
+    @Override
+    public void setTitle(String s) {
+        textView.setText(s);
+        Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "alyarm!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -65,5 +80,7 @@ public class FeedFragment extends MvpAppCompatFragment implements FeedView {
     public void updateList() {
         adapter.notifyDataSetChanged();
     }
+
+
 }
 

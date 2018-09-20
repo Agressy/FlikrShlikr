@@ -11,4 +11,7 @@ public interface FeedView extends MvpView{
     void showError(Throwable e);
 
     void updateList();
+
+    void setTitle(String s);
+
 }

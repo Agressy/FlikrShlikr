@@ -1,7 +1,7 @@
 package com.bortnikov.artem.flikrshlikr.data.rest;
 
 import com.bortnikov.artem.flikrshlikr.data.Endpoints;
-import com.bortnikov.artem.flikrshlikr.data.model.FeedList;
+import com.bortnikov.artem.flikrshlikr.data.model.retrofit.FeedList;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;

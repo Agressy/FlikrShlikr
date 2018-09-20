@@ -1,5 +1,6 @@
-package com.bortnikov.artem.flikrshlikr.data.model;
+package com.bortnikov.artem.flikrshlikr.data.model.retrofit;
 
+import com.bortnikov.artem.flikrshlikr.data.model.retrofit.Photo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
