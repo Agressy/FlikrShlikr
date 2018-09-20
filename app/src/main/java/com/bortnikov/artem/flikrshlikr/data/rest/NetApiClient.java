@@ -26,7 +26,7 @@ public class NetApiClient {
     private NetApiClient() {
     }
 
-    public Flowable <FeedList> getFeed() {
+    public Flowable<FeedList> getFeed() {
         return netApi.getFeedResponse(METHOD_RECENT, API_KEY, EXTRAS, FORMAT, NOJSONCALLBACK)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
