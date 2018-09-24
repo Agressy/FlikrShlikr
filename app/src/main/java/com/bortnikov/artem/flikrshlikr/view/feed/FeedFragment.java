@@ -1,5 +1,8 @@
 package com.bortnikov.artem.flikrshlikr.view.feed;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,9 +18,12 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bortnikov.artem.flikrshlikr.R;
 import com.bortnikov.artem.flikrshlikr.data.model.RealmModel;
+import com.bortnikov.artem.flikrshlikr.data.model.retrofit.FeedList;
 import com.bortnikov.artem.flikrshlikr.data.model.retrofit.Photo;
 import com.bortnikov.artem.flikrshlikr.presenter.feed.FeedPresenter;
 import com.bortnikov.artem.flikrshlikr.presenter.feed.FeedView;
+
+import org.reactivestreams.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,23 +43,27 @@ public class FeedFragment extends MvpAppCompatFragment implements FeedView {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_feed, container, false);
         photoRecyclerView = v.findViewById(R.id.photo_recycler_view);
         photoRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        adapter = new FeedAdapter(feedPresenter.getListFiles());
-        photoRecyclerView.setAdapter(adapter);
         textView = v.findViewById(R.id.feed_db);
 
-        feedPresenter.saveToRealm();
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkinfo = connectivityManager.getActiveNetworkInfo();
+        if (networkinfo != null && networkinfo.isConnected()) {
+            adapter = new FeedAdapter(feedPresenter.getListFiles());
+            photoRecyclerView.setAdapter(adapter);
+            feedPresenter.saveToRealm();
+        } else {
+            Toast.makeText(getActivity(), R.string.no_internet_message, Toast.LENGTH_SHORT).show();
+            adapter = new FeedAdapter(feedPresenter.readFromRealm());
+            photoRecyclerView.setAdapter(adapter);
+        }
         return v;
-    }
-
-    @Override
-    public void setTitle(String s) {
-        textView.setText(s);
-        Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
-        Toast.makeText(getActivity(), "alyarm!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -80,7 +90,6 @@ public class FeedFragment extends MvpAppCompatFragment implements FeedView {
     public void updateList() {
         adapter.notifyDataSetChanged();
     }
-
 
 }
 

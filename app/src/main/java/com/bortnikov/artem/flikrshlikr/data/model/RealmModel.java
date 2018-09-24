@@ -10,12 +10,6 @@ public class RealmModel extends RealmObject {
     public RealmModel() {
     }
 
-    public RealmModel(String title, String imageUrl) {
-        super();
-        this.title = title;
-        this.imageUrl = imageUrl;
-    }
-
     public void setTitle(String title) {
         this.title = title;
     }

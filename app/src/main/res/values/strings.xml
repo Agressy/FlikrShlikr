@@ -8,4 +8,5 @@
     <string name="feed">Feed</string>
     <string name="search">Search</string>
     <string name="profile">Profile</string>
+    <string name="no_internet_message">Подключите интернет для отображения актуальной ленты</string>
 </resources>

@@ -1,27 +1,13 @@
 package com.bortnikov.artem.flikrshlikr.data.model.retrofit;
 
-import com.bortnikov.artem.flikrshlikr.data.model.retrofit.Photo;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class Photos {
 
-    @SerializedName("page")
-    @Expose
     private Integer page;
-    @SerializedName("pages")
-    @Expose
     private Integer pages;
-    @SerializedName("perpage")
-    @Expose
     private Integer perpage;
-    @SerializedName("total")
-    @Expose
     private String total;
-    @SerializedName("photo")
-    @Expose
     private List<Photo> photo = null;
 
     public Integer getPage() {

@@ -12,6 +12,4 @@ public interface FeedView extends MvpView {
 
     void updateList();
 
-    void setTitle(String s);
-
 }

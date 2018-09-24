@@ -1,4 +1,4 @@
-package com.bortnikov.artem.flikrshlikr.view;
+package com.bortnikov.artem.flikrshlikr;
 
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.module.AppGlideModule;
