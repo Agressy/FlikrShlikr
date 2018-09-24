@@ -1,6 +1,5 @@
 package com.bortnikov.artem.flikrshlikr.view.feed;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
@@ -15,10 +14,7 @@ import android.widget.Toast;
 import com.bortnikov.artem.flikrshlikr.R;
 import com.bortnikov.artem.flikrshlikr.presenter.feed.FeedListItemView;
 import com.bortnikov.artem.flikrshlikr.presenter.feed.FeedListPresenter;
-import com.bortnikov.artem.flikrshlikr.view.GlideApp;
-import com.bortnikov.artem.flikrshlikr.view.MainApplication;
-import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
+import com.bortnikov.artem.flikrshlikr.GlideApp;
 
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
@@ -66,7 +62,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
         @Override
         public void setImage(String imageLink) {
-            //Picasso.get().load(imageLink).centerCrop().resize(120, 120).into(imageView);
             GlideApp.with(imageView.getContext())
                     .load(imageLink)
                     .placeholder(new ColorDrawable(Color.GRAY))

@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.bortnikov.artem.flikrshlikr.AppComponentSingleton;
+import com.bortnikov.artem.flikrshlikr.MainApplication;
 import com.bortnikov.artem.flikrshlikr.data.model.RealmModel;
 import com.bortnikov.artem.flikrshlikr.data.model.retrofit.Photo;
 import com.bortnikov.artem.flikrshlikr.data.model.retrofit.FeedList;
@@ -23,13 +25,17 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 @InjectViewState
 public class FeedPresenter extends MvpPresenter<FeedView> implements Subscriber<FeedList> {
 
-    List<RealmModel> modelList = new ArrayList<>();
+    private List<RealmModel> modelList = new ArrayList<>();
 
-    Realm realm;
+    private AppComponentSingleton appComponent;
+
+    private Realm realm;
+
 
     class ListPresenter implements FeedListPresenter {
         List<String> titles = new ArrayList<>();
@@ -48,14 +54,15 @@ public class FeedPresenter extends MvpPresenter<FeedView> implements Subscriber<
     }
 
     public FeedListPresenter getListFiles() {
-        return listPrestenter;
+        return listPresenter;
     }
 
-    private ListPresenter listPrestenter = new ListPresenter();
+    private ListPresenter listPresenter = new ListPresenter();
 
     @Override
     public void attachView(FeedView view) {
         super.attachView(view);
+        appComponent = MainApplication.getComponentSingleton();
         loadData();
     }
 
@@ -64,47 +71,42 @@ public class FeedPresenter extends MvpPresenter<FeedView> implements Subscriber<
         NetApiClient.getInstance().getFeed().subscribe(this);
     }
 
-    public void saveToRealm() {
-        Single<List<RealmModel>> saveToRealm = Single.create((SingleOnSubscribe<List<RealmModel>>) emitter -> {
-            try {
-                realm = Realm.getDefaultInstance();
-
-                for (RealmModel curItem : modelList) {
-                    try {
-                        realm.beginTransaction();
-                        RealmModel realmModel = realm.createObject(RealmModel.class);
-                        realmModel.setTitle(curItem.getTitle());
-                        realmModel.setImageUrl(curItem.getImageUrl());
-                        realm.commitTransaction();
-                    } catch (Exception e) {
-                        realm.cancelTransaction();
-                        emitter.onError(e);
-                    }
-                }
-
-                List<RealmModel> list = new ArrayList<>(realm.where(RealmModel.class).findAll());
-                emitter.onSuccess(list);
-                realm.close();
-            } catch (Exception e) {
-                emitter.onError(e);
+    public FeedListPresenter readFromRealm() {
+        try {
+            realm = Realm.getDefaultInstance();
+            RealmResults<RealmModel> tempList = realm.where(RealmModel.class).findAll();
+            listPresenter.titles.clear();
+            listPresenter.images.clear();
+            for (RealmModel m : tempList) {
+                listPresenter.titles.add(String.valueOf(m.getTitle()));
+                listPresenter.images.add(String.valueOf(m.getImageUrl()));
             }
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-        saveToRealm.subscribeWith(CreateObserver());
+            realm.close();
+        } catch (Exception e) {
+            getViewState().showError(e);
+        }
+        return listPresenter;
     }
 
-    private DisposableSingleObserver<List<RealmModel>> CreateObserver() {
-        return new DisposableSingleObserver<List<RealmModel>>() {
+    public void saveToRealm() {
+        try {
+            realm = Realm.getDefaultInstance();
 
-            @Override
-            public void onSuccess(@NonNull List<RealmModel> list) {
-                getViewState().setTitle(list.get(0).getTitle());
+            for (RealmModel curItem : modelList) {
+                try {
+                    realm.beginTransaction();
+                    RealmModel realmModel = realm.createObject(RealmModel.class);
+                    realmModel.setTitle(curItem.getTitle());
+                    realmModel.setImageUrl(curItem.getImageUrl());
+                    realm.commitTransaction();
+                } catch (Exception e) {
+                    realm.cancelTransaction();
+                }
             }
-
-            @Override
-            public void onError(@NonNull Throwable e) {
-            }
-        };
+            realm.close();
+        } catch (Exception e) {
+            getViewState().showError(e);
+        }
     }
 
     @Override
@@ -116,12 +118,15 @@ public class FeedPresenter extends MvpPresenter<FeedView> implements Subscriber<
     public void onNext(FeedList items) {
         List<Photo> list;
         list = items.getPhotos().getPhoto();
-        listPrestenter.titles.clear();
-        listPrestenter.images.clear();
+        listPresenter.titles.clear();
+        listPresenter.images.clear();
         for (Photo f : list) {
-            listPrestenter.titles.add(String.valueOf(f.getTitle()));
-            listPrestenter.images.add(String.valueOf(f.getUrlS()));
-            modelList.add(new RealmModel(String.valueOf(f.getTitle()), String.valueOf(f.getUrlS())));
+            listPresenter.titles.add(String.valueOf(f.getTitle()));
+            listPresenter.images.add(String.valueOf(f.getUrlS()));
+            RealmModel realmItem = new RealmModel();
+            realmItem.setTitle(String.valueOf(f.getTitle()));
+            realmItem.setImageUrl(String.valueOf(f.getUrlS()));
+            modelList.add(realmItem);
         }
         getViewState().updateList();
     }

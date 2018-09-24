@@ -2,7 +2,7 @@ package com.bortnikov.artem.flikrshlikr.presenter.feed;
 
 import com.arellomobile.mvp.MvpView;
 
-public interface FeedView extends MvpView{
+public interface FeedView extends MvpView {
 
     void startLoad();
 
@@ -11,7 +11,5 @@ public interface FeedView extends MvpView{
     void showError(Throwable e);
 
     void updateList();
-
-    void setTitle(String s);
 
 }

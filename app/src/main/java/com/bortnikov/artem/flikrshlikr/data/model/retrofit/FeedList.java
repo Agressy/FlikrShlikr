@@ -1,15 +1,8 @@
 package com.bortnikov.artem.flikrshlikr.data.model.retrofit;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 public class FeedList {
 
-    @SerializedName("photos")
-    @Expose
     private Photos photos;
-    @SerializedName("stat")
-    @Expose
     private String stat;
 
     public Photos getPhotos() {

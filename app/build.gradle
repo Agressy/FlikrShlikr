@@ -24,7 +24,7 @@ android {
 }
 
 buildscript {
-    ext.android_support_ver = "27.1.0"
+    ext.android_support_ver = "27.1.1"
     ext.moxy_ver = "1.5.5"
     ext.butterknife = "8.8.1"
     ext.glide = "4.8.0"
@@ -66,8 +66,8 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glide"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide"
 
-    implementation 'com.squareup.picasso:picasso:2.71828'
-
+    ///////////////////////////////////////////////////////////////////////////
+    // Dagger 2
     implementation 'com.google.dagger:dagger:2.13'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.13'
 }
