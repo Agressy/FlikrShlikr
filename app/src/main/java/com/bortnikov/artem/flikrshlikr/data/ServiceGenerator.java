@@ -1,4 +1,4 @@
-package com.bortnikov.artem.flikrshlikr.data.rest;
+package com.bortnikov.artem.flikrshlikr.data;
 
 import com.bortnikov.artem.flikrshlikr.BuildConfig;
 import com.google.gson.FieldNamingPolicy;

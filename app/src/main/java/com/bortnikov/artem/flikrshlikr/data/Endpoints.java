@@ -1,6 +1,6 @@
 package com.bortnikov.artem.flikrshlikr.data;
 
-import com.bortnikov.artem.flikrshlikr.data.model.retrofit.FeedList;
+import com.bortnikov.artem.flikrshlikr.model.retrofit.FeedList;
 
 import io.reactivex.Flowable;
 
@@ -15,7 +15,13 @@ public interface Endpoints {
                                        @Query("extras") String extras,
                                        @Query("format") String format,
                                        @Query("nojsoncallback") String nojsoncallback);
-//    @GET("/users/{user}")
-//    Flowable<List<SearchModel>> getSearchLine(
-//            @Path("user") String user);
+
+    @GET("rest/")
+    Flowable<FeedList> getSearchResponse(@Query("method") String method,
+                                         @Query("api_key") String apiKey,
+                                         @Query("tags") String tags,
+                                         @Query("extras") String extras,
+                                         @Query("format") String format,
+                                         @Query("nojsoncallback") String nojsoncallback);
+
 }

@@ -1,94 +1,81 @@
 package com.bortnikov.artem.flikrshlikr.view.feed;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bortnikov.artem.flikrshlikr.R;
-import com.bortnikov.artem.flikrshlikr.data.model.RealmModel;
-import com.bortnikov.artem.flikrshlikr.data.model.retrofit.FeedList;
-import com.bortnikov.artem.flikrshlikr.data.model.retrofit.Photo;
+import com.bortnikov.artem.flikrshlikr.model.RealmModel;
 import com.bortnikov.artem.flikrshlikr.presenter.feed.FeedPresenter;
 import com.bortnikov.artem.flikrshlikr.presenter.feed.FeedView;
+import com.bortnikov.artem.flikrshlikr.view.Adapter;
 
-import org.reactivestreams.Subscriber;
-
-import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.observers.DisposableSingleObserver;
-
-public class FeedFragment extends MvpAppCompatFragment implements FeedView {
+public class FeedFragment extends MvpAppCompatFragment implements FeedView, Adapter.OnFeedClickListener {
 
     @InjectPresenter
     FeedPresenter feedPresenter;
 
-    FeedAdapter adapter;
+    private Adapter adapter = new Adapter(this);
 
     private RecyclerView photoRecyclerView;
-    private List<Photo> itemsList = new ArrayList<>();
-    private TextView textView;
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_feed, container, false);
-        photoRecyclerView = v.findViewById(R.id.photo_recycler_view);
-        photoRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        textView = v.findViewById(R.id.feed_db);
 
-        ConnectivityManager connectivityManager =
-                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkinfo = connectivityManager.getActiveNetworkInfo();
-        if (networkinfo != null && networkinfo.isConnected()) {
-            adapter = new FeedAdapter(feedPresenter.getListFiles());
-            photoRecyclerView.setAdapter(adapter);
-            feedPresenter.saveToRealm();
-        } else {
-            Toast.makeText(getActivity(), R.string.no_internet_message, Toast.LENGTH_SHORT).show();
-            adapter = new FeedAdapter(feedPresenter.readFromRealm());
-            photoRecyclerView.setAdapter(adapter);
-        }
-        return v;
+        return inflater.inflate(R.layout.fragment_feed, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        progressBar = view.findViewById(R.id.feed_progress_bar);
+        photoRecyclerView = view.findViewById(R.id.feed_recycler_view);
+        photoRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+
+        photoRecyclerView.setAdapter(adapter);
     }
 
     @Override
-    public void startLoad() {
-
+    public void startLoading() {
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void finishLoad() {
-
+    public void hideLoading() {
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void showError(Throwable e) {
         Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+        Log.d("lololo", e.toString());
     }
 
     @Override
-    public void updateList() {
-        adapter.notifyDataSetChanged();
+    public void setItems(List<RealmModel> items) {
+        adapter.setItems(items);
+    }
+
+    @Override
+    public void onFeedClick(String title, String imageUrl) {
+        Toast.makeText(getActivity(), "title = " + title + "   url = " + imageUrl, Toast.LENGTH_SHORT).show();
     }
 
 }
