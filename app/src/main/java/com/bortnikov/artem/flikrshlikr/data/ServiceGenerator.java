@@ -1,4 +1,4 @@
-package com.bortnikov.artem.flikrshlikr.data.rest;
+package com.bortnikov.artem.flikrshlikr.data;
 
 import com.bortnikov.artem.flikrshlikr.BuildConfig;
 import com.google.gson.FieldNamingPolicy;
@@ -15,8 +15,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ServiceGenerator {
 
     private Gson gson = new GsonBuilder().create();
-            //.setDateFormat("yyyy-MM-dd")
-            //.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+    //.setDateFormat("yyyy-MM-dd")
+    //.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
 
     public <S> S createService(Class<S> serviceClass) {
         return new Retrofit.Builder()

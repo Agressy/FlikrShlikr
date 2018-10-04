@@ -3,6 +3,7 @@ apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 27
+    buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.bortnikov.artem.flikrshlikr"
         minSdkVersion 19
@@ -24,7 +25,7 @@ android {
 }
 
 buildscript {
-    ext.android_support_ver = "27.1.0"
+    ext.android_support_ver = "27.1.1"
     ext.moxy_ver = "1.5.5"
     ext.butterknife = "8.8.1"
     ext.glide = "4.8.0"
@@ -38,6 +39,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    testImplementation 'org.mockito:mockito-core:2.7.22'
+    androidTestImplementation 'org.mockito:mockito-android:2.7.22'
+    androidTestCompile 'com.squareup.okhttp3:mockwebserver:3.3.0'
+
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
@@ -66,8 +72,8 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glide"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide"
 
-    implementation 'com.squareup.picasso:picasso:2.71828'
-
+    ///////////////////////////////////////////////////////////////////////////
+    // Dagger 2
     implementation 'com.google.dagger:dagger:2.13'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.13'
 }

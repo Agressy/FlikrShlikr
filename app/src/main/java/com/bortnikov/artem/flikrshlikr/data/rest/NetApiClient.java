@@ -1,7 +1,7 @@
 package com.bortnikov.artem.flikrshlikr.data.rest;
 
 import com.bortnikov.artem.flikrshlikr.data.Endpoints;
-import com.bortnikov.artem.flikrshlikr.data.model.retrofit.FeedList;
+import com.bortnikov.artem.flikrshlikr.model.retrofit.FeedList;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -21,20 +21,18 @@ public class NetApiClient {
         return ourInstance;
     }
 
-    private Endpoints netApi = new ServiceGenerator().createService(Endpoints.class);
-
     private NetApiClient() {
     }
 
-    public Flowable<FeedList> getFeed() {
+    public Flowable<FeedList> getFeed(Endpoints netApi) {
         return netApi.getFeedResponse(METHOD_RECENT, API_KEY, EXTRAS, FORMAT, NOJSONCALLBACK)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-//    public Flowable<List<SearchList>> getSearch(String user) {
-//        return netApi.getSearchLine(user)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread());
-//    }
+    public Flowable<FeedList> getSearch(Endpoints netApi, String tag) {
+        return netApi.getSearchResponse(METHOD_SEARCH, API_KEY, tag, EXTRAS, FORMAT, NOJSONCALLBACK)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

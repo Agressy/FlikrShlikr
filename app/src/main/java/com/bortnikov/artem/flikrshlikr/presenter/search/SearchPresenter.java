@@ -1,8 +1,7 @@
-package com.bortnikov.artem.flikrshlikr.presenter.feed;
+package com.bortnikov.artem.flikrshlikr.presenter.search;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.bortnikov.artem.flikrshlikr.data.Endpoints;
-import com.bortnikov.artem.flikrshlikr.di.AppComponent;
 
 import com.bortnikov.artem.flikrshlikr.MainApp;
 import com.bortnikov.artem.flikrshlikr.model.RealmModel;
@@ -18,72 +17,35 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.realm.Realm;
-import io.realm.RealmResults;
-
 @InjectViewState
-public class FeedPresenter extends BaseRestPresenter<FeedList, FeedView> {
+public class SearchPresenter extends BaseRestPresenter<FeedList, SearchingView> {
 
     @Inject
     Endpoints netApi;
 
     private List<RealmModel> modelList = new ArrayList<>();
 
-    private Realm realm;
-
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        MainApp.getComponent().injectsToFeedPresenter(this);
+        MainApp.getComponent().injectsToSearchPresenter(this);
     }
 
     @Override
-    public void attachView(FeedView view) {
+    public void attachView(SearchingView view) {
         super.attachView(view);
 
         loadData();
     }
 
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-        realm.close();
+    public void searchNewInfo(String s) {
+        getViewState().startLoading();
+        NetApiClient.getInstance().getSearch(netApi, s).subscribe(this);
     }
 
     private void loadData() {
         getViewState().startLoading();
-        NetApiClient.getInstance().getFeed(netApi).subscribe(this);
-    }
-
-    private void readFromRealm() {
-        try {
-            realm = Realm.getDefaultInstance();
-            RealmResults<RealmModel> realmList = realm.where(RealmModel.class).findAll();
-            getViewState().setItems(realmList);
-        } catch (Exception e) {
-            getViewState().showError(e);
-        }
-    }
-
-    private void saveToRealm() {
-        try {
-            realm = Realm.getDefaultInstance();
-
-            for (RealmModel curItem : modelList) {
-                try {
-                    realm.beginTransaction();
-                    RealmModel realmModel = realm.createObject(RealmModel.class);
-                    realmModel.setId(curItem.getId());
-                    realmModel.setTitle(curItem.getTitle());
-                    realmModel.setImageUrl(curItem.getImageUrl());
-                    realm.commitTransaction();
-                } catch (Exception e) {
-                    realm.cancelTransaction();
-                }
-            }
-        } catch (Exception e) {
-            getViewState().showError(e);
-        }
+        NetApiClient.getInstance().getSearch(netApi, "manchester united").subscribe(this);
     }
 
     @Override
@@ -108,13 +70,12 @@ public class FeedPresenter extends BaseRestPresenter<FeedList, FeedView> {
     @Override
     public void onError(Throwable e) {
         getViewState().showError(e);
-        readFromRealm();
         getViewState().hideLoading();
     }
 
     @Override
     public void onComplete() {
+        getViewState().updateList();
         getViewState().hideLoading();
-        saveToRealm();
     }
 }
