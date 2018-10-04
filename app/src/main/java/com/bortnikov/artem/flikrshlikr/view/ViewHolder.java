@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bortnikov.artem.flikrshlikr.R;
-import com.bortnikov.artem.flikrshlikr.model.RealmModel;
+import com.bortnikov.artem.flikrshlikr.data.model.view.DataViewModel;
 
 public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -18,7 +18,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     private ImageView image;
     private TextView title;
 
-    private RealmModel model;
+    private DataViewModel model;
     Adapter.OnFeedClickListener listener;
 
     private ViewHolder(View view) {
@@ -34,7 +34,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         title = root.findViewById(R.id.rv_item_title);
     }
 
-    public void bind(RealmModel model, Adapter.OnFeedClickListener listener) {
+    public void bind(DataViewModel model, Adapter.OnFeedClickListener listener) {
         this.listener = listener;
         this.model = model;
         setImage(model.getImageUrl());
