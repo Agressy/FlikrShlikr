@@ -1,6 +1,6 @@
 package com.bortnikov.artem.flikrshlikr;
 
-import com.bortnikov.artem.flikrshlikr.model.RealmModel;
+import com.bortnikov.artem.flikrshlikr.data.model.realm.RealmModel;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

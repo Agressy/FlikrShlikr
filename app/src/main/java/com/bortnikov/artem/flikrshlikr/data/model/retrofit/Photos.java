@@ -1,4 +1,4 @@
-package com.bortnikov.artem.flikrshlikr.model.retrofit;
+package com.bortnikov.artem.flikrshlikr.data.model.retrofit;
 
 import java.util.List;
 

@@ -6,14 +6,15 @@ import android.view.LayoutInflater;
 
 import android.view.ViewGroup;
 
-import com.bortnikov.artem.flikrshlikr.model.RealmModel;
+import com.bortnikov.artem.flikrshlikr.data.model.realm.RealmModel;
+import com.bortnikov.artem.flikrshlikr.data.model.view.DataViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<ViewHolder> {
 
-    private ArrayList<RealmModel> data = new ArrayList<>();
+    private ArrayList<DataViewModel> data = new ArrayList<>();
     private OnFeedClickListener listener;
 
     public Adapter(OnFeedClickListener listener) {
@@ -37,13 +38,13 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
         return data.size();
     }
 
-    public void setItems(List<RealmModel> list) {
+    public void setItems(List<DataViewModel> list) {
         data.clear();
         data.addAll(list);
         notifyDataSetChanged();
     }
 
-    public void addItems(List<RealmModel> list) {
+    public void addItems(List<DataViewModel> list) {
         int oldIndex = data.size();
         data.addAll(list);
         notifyItemRangeInserted(oldIndex, list.size());

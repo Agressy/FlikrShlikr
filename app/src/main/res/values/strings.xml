@@ -9,4 +9,5 @@
     <string name="search">Search</string>
     <string name="profile">Profile</string>
     <string name="no_internet_message">Подключите интернет для отображения актуальной ленты</string>
+    <string name="std_picture_url"><![CDATA[https://images.unsplash.com/photo-1508138142660-302e69e74271?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=723745f6e7639a75f8ca777830f1fa60&dpr=1&auto=format&fit=crop&w=1000&q=80&cs=tinysrgb]]></string>
 </resources>

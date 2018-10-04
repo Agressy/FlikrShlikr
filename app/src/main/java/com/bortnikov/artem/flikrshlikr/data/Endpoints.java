@@ -1,6 +1,6 @@
 package com.bortnikov.artem.flikrshlikr.data;
 
-import com.bortnikov.artem.flikrshlikr.model.retrofit.FeedList;
+import com.bortnikov.artem.flikrshlikr.data.model.retrofit.FeedList;
 
 import io.reactivex.Flowable;
 

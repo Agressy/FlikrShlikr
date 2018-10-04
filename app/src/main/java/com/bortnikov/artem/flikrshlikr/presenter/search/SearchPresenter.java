@@ -4,10 +4,10 @@ import com.arellomobile.mvp.InjectViewState;
 import com.bortnikov.artem.flikrshlikr.data.Endpoints;
 
 import com.bortnikov.artem.flikrshlikr.MainApp;
-import com.bortnikov.artem.flikrshlikr.model.RealmModel;
-import com.bortnikov.artem.flikrshlikr.model.retrofit.Photo;
-import com.bortnikov.artem.flikrshlikr.model.retrofit.FeedList;
-import com.bortnikov.artem.flikrshlikr.data.rest.NetApiClient;
+import com.bortnikov.artem.flikrshlikr.data.model.realm.RealmModel;
+import com.bortnikov.artem.flikrshlikr.data.model.retrofit.FeedList;
+import com.bortnikov.artem.flikrshlikr.data.model.view.DataViewModel;
+import com.bortnikov.artem.flikrshlikr.data.usecases.FeedUseCase;
 import com.bortnikov.artem.flikrshlikr.presenter.base.BaseRestPresenter;
 
 import org.reactivestreams.Subscription;
@@ -18,12 +18,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 @InjectViewState
-public class SearchPresenter extends BaseRestPresenter<FeedList, SearchingView> {
+public class SearchPresenter extends BaseRestPresenter<ArrayList<DataViewModel>, SearchingView> {
 
     @Inject
-    Endpoints netApi;
-
-    private List<RealmModel> modelList = new ArrayList<>();
+    FeedUseCase usecase;
 
     @Override
     protected void onFirstViewAttach() {
@@ -40,12 +38,12 @@ public class SearchPresenter extends BaseRestPresenter<FeedList, SearchingView> 
 
     public void searchNewInfo(String s) {
         getViewState().startLoading();
-        NetApiClient.getInstance().getSearch(netApi, s).subscribe(this);
+        usecase.getSearch(s).subscribe(this);
     }
 
     private void loadData() {
         getViewState().startLoading();
-        NetApiClient.getInstance().getSearch(netApi, "manchester united").subscribe(this);
+        usecase.getSearch("various").subscribe(this);
     }
 
     @Override
@@ -54,17 +52,8 @@ public class SearchPresenter extends BaseRestPresenter<FeedList, SearchingView> 
     }
 
     @Override
-    public void onNext(FeedList items) {
-        List<Photo> list;
-        list = items.getPhotos().getPhoto();
-        for (Photo f : list) {
-            RealmModel realmItem = new RealmModel();
-            realmItem.setId(0);
-            realmItem.setTitle(String.valueOf(f.getTitle()));
-            realmItem.setImageUrl(String.valueOf(f.getUrlS()));
-            modelList.add(realmItem);
-        }
-        getViewState().setItems(modelList);
+    public void onNext(ArrayList<DataViewModel> items) {
+        getViewState().setItems(items);
     }
 
     @Override
