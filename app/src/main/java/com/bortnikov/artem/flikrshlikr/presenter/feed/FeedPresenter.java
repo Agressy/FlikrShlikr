@@ -29,7 +29,6 @@ public class FeedPresenter extends BaseRestPresenter<Integer, FeedView> {
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        realm = Realm.getDefaultInstance();
         MainApp.getComponent().injectsToFeedPresenter(this);
         loadData();
     }
@@ -40,24 +39,20 @@ public class FeedPresenter extends BaseRestPresenter<Integer, FeedView> {
         setData();
     }
 
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-        realm.close();
-    }
-
     private void loadData() {
         getViewState().startLoading();
         usecase.getFeed().subscribe(this);
     }
 
     private void setData() {
+        realm = Realm.getDefaultInstance();
         RealmResults<RealmModel> feed = realm.where(RealmModel.class).findAll();
         ArrayList<DataViewModel> result = new ArrayList<>();
         for (RealmModel curItem : feed) {
             result.add(new DataViewModel(curItem));
         }
         getViewState().setItems(result);
+        realm.close();
     }
 
     @Override

@@ -2,17 +2,14 @@ package com.bortnikov.artem.flikrshlikr.data.usecases;
 
 import com.bortnikov.artem.flikrshlikr.data.Endpoints;
 import com.bortnikov.artem.flikrshlikr.data.model.realm.RealmModel;
-import com.bortnikov.artem.flikrshlikr.data.model.retrofit.FeedList;
 import com.bortnikov.artem.flikrshlikr.data.model.retrofit.Photo;
 import com.bortnikov.artem.flikrshlikr.data.model.view.DataViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 

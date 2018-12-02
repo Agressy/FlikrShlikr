@@ -3,6 +3,7 @@ package com.bortnikov.artem.flikrshlikr.view;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 
@@ -14,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bortnikov.artem.flikrshlikr.R;
+
+import java.util.Objects;
 
 public class ItemViewAlertDialogFragment extends DialogFragment {
 
@@ -32,18 +35,20 @@ public class ItemViewAlertDialogFragment extends DialogFragment {
         return frag;
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.item_view_dialog, null);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         titleTextView = view.findViewById(R.id.item_view_dialog_text_view);
         photoImageView = view.findViewById(R.id.item_view_dialog_image_view);
-        String title = getArguments().getString("title", "Title");
-        String imageUrl = getArguments().getString("imageUrl", getString(R.string.std_picture_url));
+        String title = Objects.requireNonNull(getArguments())
+                .getString("title", "Title");
+        String imageUrl = getArguments()
+                .getString("imageUrl", getString(R.string.std_picture_url));
         titleTextView.setText(title);
         GlideApp.with(view.getContext())
                 .load(imageUrl)

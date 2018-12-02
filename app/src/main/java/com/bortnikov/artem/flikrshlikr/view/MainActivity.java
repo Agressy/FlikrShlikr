@@ -1,6 +1,7 @@
 package com.bortnikov.artem.flikrshlikr.view;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
@@ -48,6 +49,8 @@ public class MainActivity extends SingleFragmentActivity
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        placeFragment(FeedFragment.class.getName());
     }
 
     @Override
@@ -88,7 +91,7 @@ public class MainActivity extends SingleFragmentActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_feed: {
                 placeFragment(FeedFragment.class.getName());
@@ -116,8 +119,6 @@ public class MainActivity extends SingleFragmentActivity
                 android.R.anim.fade_in, android.R.anim.fade_out,
                 android.R.anim.fade_out, android.R.anim.fade_in);
         transaction.replace(R.id.container_fragments, fragment, fragmentTag);
-
-        //transaction.addToBackStack(fragmentTag);
 
         transaction.commit();
     }

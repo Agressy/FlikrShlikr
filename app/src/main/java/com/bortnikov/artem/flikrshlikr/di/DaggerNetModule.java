@@ -9,10 +9,10 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class DaggerNetModule {
+class DaggerNetModule {
     @Provides
     @Singleton
-    Endpoints getEndpoints(){
+    Endpoints getEndpoints() {
         return new ServiceGenerator().createService(Endpoints.class);
     }
 }
