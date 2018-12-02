@@ -26,6 +26,7 @@ import com.bortnikov.artem.flikrshlikr.view.Adapter;
 import com.bortnikov.artem.flikrshlikr.view.ItemViewAlertDialogFragment;
 
 import java.util.List;
+import java.util.Objects;
 
 import static android.support.v4.internal.view.SupportMenuItem.SHOW_AS_ACTION_IF_ROOM;
 
@@ -97,15 +98,16 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchingVie
     }
 
     @Override
-    public void updateList(){
+    public void updateList() {
         adapter.notifyDataSetChanged();
         photoRecyclerView.invalidate();
     }
 
     @Override
-    public void onFeedClick(String title, String imageUrl) {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        ItemViewAlertDialogFragment alertDialog = ItemViewAlertDialogFragment.newInstance(title, imageUrl);
+    public void onFeedClick(View view, String title, String imageUrl) {
+        FragmentManager fm = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+        ItemViewAlertDialogFragment alertDialog = ItemViewAlertDialogFragment
+                .newInstance(title, imageUrl);
         alertDialog.show(fm, "alert_dialog");
     }
 
@@ -129,6 +131,7 @@ public class SearchFragment extends MvpAppCompatFragment implements SearchingVie
 
     @Override
     public boolean onQueryTextChange(String s) {
+        searchPresenter.searchNewInfo(s);
         return false;
     }
 

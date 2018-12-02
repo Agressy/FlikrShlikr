@@ -26,7 +26,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         root = view;
         root.setOnClickListener(view1 -> {
                     if (listener != null) {
-                        listener.onFeedClick(model.getTitle(), model.getImageUrl());
+                        listener.onFeedClick(view, model.getTitle(), model.getImageUrl());
                     }
                 }
         );
@@ -34,7 +34,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         title = root.findViewById(R.id.rv_item_title);
     }
 
-    public void bind(DataViewModel model, Adapter.OnFeedClickListener listener) {
+    void bind(DataViewModel model, Adapter.OnFeedClickListener listener) {
         this.listener = listener;
         this.model = model;
         setImage(model.getImageUrl());

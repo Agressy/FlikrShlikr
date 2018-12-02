@@ -9,7 +9,7 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class FeedUseCaseModule {
+class FeedUseCaseModule {
 
     @Provides
     @Singleton

@@ -1,11 +1,8 @@
 package com.bortnikov.artem.flikrshlikr.presenter.search;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.bortnikov.artem.flikrshlikr.data.Endpoints;
 
 import com.bortnikov.artem.flikrshlikr.MainApp;
-import com.bortnikov.artem.flikrshlikr.data.model.realm.RealmModel;
-import com.bortnikov.artem.flikrshlikr.data.model.retrofit.FeedList;
 import com.bortnikov.artem.flikrshlikr.data.model.view.DataViewModel;
 import com.bortnikov.artem.flikrshlikr.data.usecases.FeedUseCase;
 import com.bortnikov.artem.flikrshlikr.presenter.base.BaseRestPresenter;
@@ -13,7 +10,6 @@ import com.bortnikov.artem.flikrshlikr.presenter.base.BaseRestPresenter;
 import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 

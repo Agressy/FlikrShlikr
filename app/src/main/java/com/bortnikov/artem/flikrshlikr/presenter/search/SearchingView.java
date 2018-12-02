@@ -1,6 +1,5 @@
 package com.bortnikov.artem.flikrshlikr.presenter.search;
 
-import com.bortnikov.artem.flikrshlikr.data.model.realm.RealmModel;
 import com.bortnikov.artem.flikrshlikr.data.model.view.DataViewModel;
 import com.bortnikov.artem.flikrshlikr.presenter.base.BaseRestView;
 

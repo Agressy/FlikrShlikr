@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.bortnikov.artem.flikrshlikr.data.model.realm.RealmModel;
@@ -51,7 +52,7 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     public interface OnFeedClickListener {
-        void onFeedClick(String title, String imageUrl);
+        void onFeedClick(View view, String title, String imageUrl);
     }
 
 }

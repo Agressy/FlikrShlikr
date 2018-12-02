@@ -9,7 +9,7 @@ public class DataViewModel {
 
     public DataViewModel(int id, String title, String imageUrl) {
         this.id = id;
-        this.title= title;
+        this.title = title;
         this.imageUrl = imageUrl;
     }
 
